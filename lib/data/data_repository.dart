@@ -1,5 +1,4 @@
-import 'package:aya_s_final_project/domain/entities/contact.dart';
-
+import 'package:aya_s_final_project/data/contact.dart';
 
 class DataRepository {
   final List<Contact> dataList = [];

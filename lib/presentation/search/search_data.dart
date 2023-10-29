@@ -1,12 +1,10 @@
-import 'package:aya_s_final_project/presentation/contact_details.dart';
-import 'package:aya_s_final_project/presentation/edit_data_page.dart';
-
+import 'package:aya_s_final_project/presentation/screens/contact_details.dart';
 import 'package:flutter/material.dart';
 
 class DataSearchDelegate extends SearchDelegate<String> {
   final List<Map<String, String>> dataList;
   final Function(Map<String, String>, int)? editDataCallback;
-    final Function(int)? removeCallback;
+  final Function(int)? removeCallback;
   DataSearchDelegate(this.dataList, this.editDataCallback, this.removeCallback);
 
   @override
@@ -60,16 +58,13 @@ class DataSearchDelegate extends SearchDelegate<String> {
               MaterialPageRoute(
                 builder: (context) => ContactDetailPage(
                   index: dataList.indexOf(suggestionList[index]),
-                     dataListe: dataList[index],
-                    editDataCallback: (data, index) {
-                      editDataCallback!(data, index);
-                    },
-                    removeCallback: ( index) {
-                      removeCallback!( index);
-                    },  
-                 
-
-                
+                  dataListe: dataList[index],
+                  editDataCallback: (data, index) {
+                    editDataCallback!(data, index);
+                  },
+                  removeCallback: (index) {
+                    removeCallback!(index);
+                  },
                 ),
               ),
             );

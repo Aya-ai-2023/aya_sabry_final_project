@@ -1,10 +1,8 @@
-
-
-
-import 'package:aya_s_final_project/presentation/contact_details.dart';
-import 'package:aya_s_final_project/presentation/edit_data_page.dart';
-import 'package:aya_s_final_project/presentation/form_validation_page.dart';
-import 'package:aya_s_final_project/presentation/search_data.dart';
+import 'package:aya_s_final_project/presentation/form/form_validation_page.dart';
+import 'package:aya_s_final_project/presentation/screens/contact_details.dart';
+import 'package:aya_s_final_project/presentation/screens/edit_data_page.dart';
+import 'package:aya_s_final_project/presentation/screens/intro.dart';
+import 'package:aya_s_final_project/presentation/search/search_data.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -19,8 +17,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, String>> dataList = [];
   List<Map<String, String>> filteredList = [];
 
-
-
   void _addData(Map<String, String> data) {
     setState(() {
       dataList.add(data);
@@ -32,40 +28,39 @@ class _MyHomePageState extends State<MyHomePage> {
       dataList[index] = newData;
     });
   }
-void removeCallback(int index) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Delete Contact'),
-      content: const Text('Are you sure you want to delete this contact?'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            // Remove the contact from the list
-            dataList.removeAt(index);
-             setState(() {
+
+  void removeCallback(int index) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Contact'),
+        content: const Text('Are you sure you want to delete this contact?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Remove the contact from the list
+              dataList.removeAt(index);
+              setState(() {
                 dataList.length = dataList.length;
-                 Navigator.pop(context);
+                Navigator.pop(context);
               });
 
               // Pop the dialog.
               Navigator.pop(context);
-             // Close the dialog
-          },
-          child: const Text('Delete'),
-        ),
-      ],
-    ),
-  );
-}
-
-
+              // Close the dialog
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
 
   // void remove(int index) {
   //   showDialog(
@@ -99,32 +94,31 @@ void removeCallback(int index) {
   // }
 
   void remove(int index) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Delete Contact'),
-      content: const Text('Are you sure you want to delete this contact?'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            // Remove the contact from the list
-            dataList.removeAt(index);
-            Navigator.pop(context); // Close the dialog
-            setState(() {}); // Refresh the list
-          },
-          child: const Text('Delete'),
-        ),
-      ],
-    ),
-  );
-}
-
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Contact'),
+        content: const Text('Are you sure you want to delete this contact?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Remove the contact from the list
+              dataList.removeAt(index);
+              Navigator.pop(context); // Close the dialog
+              setState(() {}); // Refresh the list
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
 
   // ignore: non_constant_identifier_names
   void editData(int index) {
@@ -157,7 +151,8 @@ void removeCallback(int index) {
       }
     });
   }
-    @override
+
+  @override
   void initState() {
     super.initState();
     filteredList = dataList;
@@ -167,79 +162,70 @@ void removeCallback(int index) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contacts',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Contacts',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: DataSearchDelegate(filteredList, editDataCallback,removeCallback),
+                delegate: DataSearchDelegate(
+                    filteredList, editDataCallback, removeCallback),
               );
             },
           ),
         ],
       ),
       body: filteredList.isEmpty
-          ? const Center(
-              child: Text('No results found.'),
-            )
+          ? const IntroductionPage()
           : ListView.builder(
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
-
- final data = dataList[index];
-          return GestureDetector(
-            onTap: () {
-
-
-           
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ContactDetailPage(
-                   dataListe: data,
-                    editDataCallback: (data, index) {
-                      editDataCallback(data, index);
+                final data = dataList[index];
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactDetailPage(
+                              dataListe: data,
+                              editDataCallback: (data, index) {
+                                editDataCallback(data, index);
+                              },
+                              removeCallback: (index) {
+                                removeCallback(index);
+                              },
+                              index: index,
+                            ),
+                          ));
                     },
-                    removeCallback: ( index) {
-                      removeCallback( index);
-                    },  
-                    index: index,
-
-                ),
-              ));
-            },child:
-
-
-                ListTile(
-                  leading: CircleAvatar(
-                    child: Text(dataList[index]['name']!.substring(0, 1)),
-                  ),
-
-
-                  
-                  title: Text(filteredList[index]['name']!),
-                  subtitle: Text(filteredList[index]['mobileNumber']!),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          editData(index);
-                        },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Text(dataList[index]['name']!.substring(0, 1)),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          remove(index);
-                        },
+                      title: Text(filteredList[index]['name']!),
+                      subtitle: Text(filteredList[index]['mobileNumber']!),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              editData(index);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              remove(index);
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-          ));
+                    ));
               },
             ),
       floatingActionButton: FloatingActionButton(

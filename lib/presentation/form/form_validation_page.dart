@@ -10,6 +10,7 @@ class FormValidationPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mobileNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final RegExp nameRegex = RegExp(r'^[a-zA-Z]+[ a-zA-Z]*$');
 
   final RegExp emailRegex = RegExp(
@@ -106,6 +107,7 @@ class FormValidationPage extends StatelessWidget {
             validateMobileNumber(_mobileNumberController.text))) {
       final data = {
         'name': _nameController.text,
+        'lastName': _lastNameController.text,
         'mobileNumber': _mobileNumberController.text,
         'email': _emailController.text,
       };
@@ -132,13 +134,34 @@ class FormValidationPage extends StatelessWidget {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+          //  crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+
+               SizedBox(
+                 child: Center(
+                   child: CircleAvatar(
+                    radius: 35,
+                    child: Center(
+                      child: Icon(
+                        
+                      Icons.camera_alt,
+                      color: Colors.grey.shade300,
+                      size: 25,
+                      
+                      
+                                     
+                                 
+                      ),
+                    ),
+                                ),
+                 )),
+                   const SizedBox(height: 10,),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
                   labelText: 'Name',
+                  hintText: 'Enter your name',
                   prefixIcon: Icon(
                     Icons.person,
                     color: Colors.indigo,
@@ -146,10 +169,26 @@ class FormValidationPage extends StatelessWidget {
                 ),
                 validator: (value) => _validateInputName(value, 'name'),
               ),
+                const SizedBox(height: 10,),
+               TextFormField(
+                controller: _lastNameController,
+               
+                  decoration: const InputDecoration(
+                  labelText: 'Last Name',
+                  hintText: 'Enter your last name',
+                  prefixIcon: Icon(
+                    Icons.person_2,
+                    color: Colors.indigo,
+                  ),
+                ),
+            
+              ),
+              const SizedBox(height: 10,),
               TextFormField(
                 controller: _mobileNumberController,
                 decoration: InputDecoration(
                   labelText: 'Mobile Number',
+                  hintText: 'Enter your mobile number',
                   prefixIcon: InkWell(
                     child: buildSettingsElement(
                       Icons.call,
@@ -162,10 +201,12 @@ class FormValidationPage extends StatelessWidget {
                 validator: (value) =>
                     _validateInputMobile(value, 'mobile number'),
               ),
+                const SizedBox(height: 10,),
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  hintText: 'Enter your email',
                   prefixIcon: InkWell(
                     child: buildSettingsElement(
                       Icons.email_sharp,
@@ -178,9 +219,13 @@ class FormValidationPage extends StatelessWidget {
                 validator: (value) => _validateInputEmail(value, 'email'),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _submitForm(context),
-                child: const Text('Submit'),
+              SizedBox(
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () => _submitForm(context),
+                    child: const Text('Submit'),
+                  ),
+                ),
               ),
             ],
           ),

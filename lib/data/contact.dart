@@ -1,6 +1,7 @@
 // contacts_model.dart
 class Contact {
   final String name;
+  final String lastName='';
   final String mobileNumber;
   final String email;
 
