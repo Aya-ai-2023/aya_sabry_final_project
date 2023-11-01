@@ -38,12 +38,12 @@ class IntroductionPage extends StatelessWidget {
                       Icons.email,
                       color: Colors.blue,
                     ),
-                    Text('directly',style: TextStyle(color: Colors.indigo[300],fontWeight: FontWeight.w600),),
+               //     Text('directly',style: TextStyle(color: Colors.indigo[300],fontWeight: FontWeight.w600),),
                   ],
                 ),
                 Row(
                   children: [
-                    Text(' from the app.',style: TextStyle(color: Colors.indigo[300],fontWeight: FontWeight.w600),),
+                    Text(' directly from the app.',style: TextStyle(color: Colors.indigo[300],fontWeight: FontWeight.w600),),
                   ],
                 ),
                 const SizedBox(height: 25),
